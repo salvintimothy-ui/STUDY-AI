@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Study Helper</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #111; color: white; }
+    textarea { width: 100%; height: 100px; }
+    button { padding: 10px; margin-top: 10px; }
+    #answer { margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<h2>📘 Study Helper</h2>
+
+<textarea id="question" placeholder="Ask a question..."></textarea>
+<button onclick="askAI()">Ask</button>
+
+<div id="answer"></div>
+
+<script>
+async function askAI() {
+  const q = document.getElementById("question").value;
+
+  document.getElementById("answer").innerText = "Thinking...";
+
+  const res = await fetch("/api/ask", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ question: q })
+  });
+
+  const data = await res.json();
+  document.getElementById("answer").innerText = data.answer;
+}
+</script>
+
+</body>
+</html>
